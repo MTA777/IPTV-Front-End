@@ -9,14 +9,17 @@ import Link from "@mui/material/Link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Skeleton from "@mui/material/Skeleton";
 import { getCapitalizeName } from "../Utils/getCapitalizeName";
 import { useNavigate } from "react-router-dom";
 
 function Header(props) {
-  const { title } = props;
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [sections, setSections] = useState([]);
+
+  const { title } = props;
   const token = localStorage.getItem("jwtToken");
   const baseUrl = "https://long-cyan-elephant-sari.cyclic.app";
 
@@ -33,6 +36,7 @@ function Header(props) {
         console.log(response.data.data);
 
         setSections(response.data.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching genres:", error);
       }
@@ -103,30 +107,39 @@ function Header(props) {
         variant="dense"
         sx={{ justifyContent: "space-between", overflowX: "auto" }}
       >
-        {sections?.map((section) => (
-          <Link
-            onClick={() => handleNavigateToGenrePage(section._id)}
-            // to={`/api/genre/${section._id}/series`} //to navigate to series of specific genre by id
-            color="inherit"
-            noWrap
-            key={section._id}
-            variant="body2"
-            sx={{
-              p: 1,
-              flexShrink: 0,
-              textDecoration: "none",
-              cursor: "pointer",
-              fontWeight: "bold",
-              "&:hover": {
-                // textDecoration: "bold",
-                color: "#007bff",
-              },
-            }}
-          >
-            {/* To upperCase first letter of genre */}
-            {getCapitalizeName(section.name)}
-          </Link>
-        ))}
+        {isLoading ? (
+          <Skeleton
+            variant="text"
+            height={39}
+            width="95%"
+            sx={{ mx: "auto" }}
+          />
+        ) : (
+          sections?.map((section) => (
+            <Link
+              onClick={() => handleNavigateToGenrePage(section._id)}
+              // to={`/api/genre/${section._id}/series`} //to navigate to series of specific genre by id
+              color="inherit"
+              noWrap
+              key={section._id}
+              variant="body2"
+              sx={{
+                p: 1,
+                flexShrink: 0,
+                textDecoration: "none",
+                cursor: "pointer",
+                fontWeight: "bold",
+                "&:hover": {
+                  // textDecoration: "bold",
+                  color: "#007bff",
+                },
+              }}
+            >
+              {/* To upperCase first letter of genre */}
+              {getCapitalizeName(section.name)}
+            </Link>
+          ))
+        )}
       </Toolbar>
     </React.Fragment>
   );
