@@ -12,6 +12,7 @@ import NotFound from "./Components/Users/Pages/NotFound";
 import SignUp from "./Components/Users/Pages/SignUpPage";
 import Profile from "./Components/Users/Pages/Profile";
 import GenrePage from "./Components/Users/Pages/GenrePage";
+import MyAccountPage from "./Components/Users/Pages/MyAccountPage";
 
 const App = () => {
   //To protect private routes
@@ -37,6 +38,14 @@ const App = () => {
           element={
             <PrivateRoute>
               <HomePage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <PrivateRoute>
+              <MyAccountPage />
             </PrivateRoute>
           }
         />

@@ -94,9 +94,7 @@ function Header(props) {
             onClose={handleCloseMenu}
           >
             <MenuItem onClick={handleNavigateToProfile}>Profile</MenuItem>
-            <MenuItem disabled={true} onClick={handleCloseMenu}>
-              My Account
-            </MenuItem>
+            <MenuItem onClick={() => navigate("/account")}>My Account</MenuItem>
             <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
           </Menu>
         </div>
